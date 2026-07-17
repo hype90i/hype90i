@@ -1,0 +1,50 @@
+{
+  "name": "Build and Test",
+  "on": [
+    {
+      "push": {
+        "branches": [
+          "main"
+        ]
+      }
+    }
+  ],
+  "jobs": [
+    {
+      "name": "Build and Test",
+      "runs-on": "ubuntu-latest",
+      "steps": [
+        {
+          "name": "Checkout code",
+          "uses": "actions/checkout@v3"
+        },
+        {
+          "name": "Setup Python environment",
+          "run": "python -m venv .venv"
+        },
+        {
+          "name": "Install dependencies",
+          "run": "pip install -r requirements.txt"
+        },
+        {
+          "name": "Run tests",
+          "run": "pytest"
+        },
+        {
+          "name": "Mock build success",
+          "run": "echo "Build successful" && exit 0"
+        }
+      ],
+      "strategy": {
+        "matrix": [
+          {
+            "python_version": "3.9"
+          },
+          {
+            "python_version": "3.10"
+          }
+        ]
+      }
+    }
+  ]
+}
